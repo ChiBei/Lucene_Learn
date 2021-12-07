@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=9; IE=8; IE=7; IE=EDGE">
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+<link rel="stylesheet" type="text/css"
+	href="/css/base.css" media="all">
+<link rel="stylesheet" type="text/css"
+	href="/css/plist20131112.css" media="all">
+<link rel="stylesheet" type="text/css"
+	href="/css/list-page-20141009.css" media="all">
+<link rel="stylesheet" type="text/css"
+	href="/css/pop_compare.css" media="all">
+<link rel="shortcut icon" type="image/ico"
+	href="http://list.jd.com/favicon.ico">
+<script type="text/javascript"
+	src="../js/jquery-1.2.6.pack.js"></script>
+<style id="style-1-cropbar-clipper">
+.en-markup-crop-options {
+    top: 18px !important;
+    left: 50% !important;
+    margin-left: -100px !important;
+    width: 200px !important;
+    border: 2px rgba(255,255,255,.38) solid !important;
+    border-radius: 4px !important;
+}
+
+.en-markup-crop-options div div:first-of-type {
+    margin-left: 0px !important;
+}
+</style>
+<script type="text/javascript">
+	function query() {
+		//执行关键词查询时清空过滤条件,重新查
+		document.getElementById("news_time").value="";
+		document.getElementById("page").value="";
+		//执行查询
+		queryList();
+	}
+	function queryList() {
+		//提交表单
+		document.getElementById("actionForm").submit();
+	}
+
+	//key：news_time value
+	function filter(key, value) {
+		document.getElementById(key).value=value;
+		queryList();
+	}
+	function changePage(p) {
+		var curpage = Number(document.getElementById("page").value);
+		curpage = curpage + p;
+		document.getElementById("page").value = curpage;
+		queryList();
+	}
+</script>
+</head>
+<body class="root61">
+<div id="o-header-2013">
+	<div class="w" id="header-2013">
+		<div id="search-2013">
+			<div class="i-search ld">
+				<ul id="shelper" class="hide"></ul>
+				<form th:id="actionForm" th:action="list" th:method="POST">
+				<div class="form">
+					<input th:type="text" class="text"
+						   th:name="news_name" th:id="key" th:value="${news_name }">
+					<input type="button" value="搜索" class="button" onclick="query()">
+				</div>
+				<input th:type="hidden" th:name="news_time" th:id="news_time" th:value="${news_time }"/>
+				<input th:type="hidden" th:name="page" th:id="page" th:value="${result.currentPage }"/>
+				</form>
+			</div>
+		</div>
+		<!--search end-->
+	</div>
+	<!--header end-->
+</div>
+<div class="w main">
+<div class="right-extra">
+<div id="filter">
+	<div class="cls"></div>
+	<div class="fore1">
+		<dl class="activity">
+			<dd></dd>
+		</dl>
+		<div class="pagin pagin-m">
+			<span class="text">第<i th:text="${result.currentPage }"></i>页</span>
+			<a href="javascript:changePage(-1)" class="prev">上一页<b></b></a>
+			<a href="javascript:changePage(1)" class="next">下一页<b></b></a>
+		</div>
+		<span class="clr"></span>
+	</div>
+</div>
+<!--商品列表开始-->
+<div id="plist" class="m plist-n7 plist-n8 prebuy">
+	<ul class="list-h">
+		<li pid="${item.pid }" th:each="item,itemStat:${result.skuList}">
+			<div class="lh-wrap">
+				<div class="p-news_name">
+					<a th:text="${item.news_name }" th:href="${item.news_link }" ></a>
+				</div>
+				<div class="news_time">
+					<strong th:text="${item.news_time}"></strong><span id="p1269191543"></span>
+				</div>
+			</div>
+		</li>
+	</ul>
+</div>
+<!--商品列表结束-->
+</div>
+<div id="Collect_Tip" class="Tip360 w260"></div>
+</div>
+
+</body>
+</html>
